@@ -16,7 +16,8 @@ image: https://covisor.org/wp-content/uploads/CoVisor_faceshield_all_3.jpg
 made: true
 made-independently: true
 license:
-  hardware: CERN-OHL-1.2
+  # hardware: CERN-OHL-1.2
+  # hardware: THIS-SHOULD-FAIL
 licensor:
   name: EN 166:2001 / EU 2016/425
 okh-manifest-version: 1.0.0

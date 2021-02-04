@@ -12,6 +12,7 @@
 # ps, we're keeping regex errors for emails + url whether they're required or not bc of web dev things ~ sea
 # PPS [!] THIS IS THE DOC-HOME version.
 
+# : str()
 date-created: day()
 date-updated: day()
 manifest-author:
@@ -69,7 +70,7 @@ licensor: include('nonessential-contact', required=False)
 # # Documentation
 
 
-documentation-home: include('url-type', required=True)               # At least one of the project-link or documentation-home fields is required | absolute path
+documentation-home: include('url-type', required=False)               # At least one of the project-link or documentation-home fields is required | absolute path
 
 archive-download: include('url-type', required=False)                 # Absolute or relative path
 
@@ -92,6 +93,7 @@ software: list(include('list-item'), required=False)
 # # User defined Fields 
 # # Include any custom / extended fields here
 ---
+__root_validator__: any(key('documentation-home'), key('project-link'))
 manifest-is-translation: 
   title: str(required=False) # text | Title of the original
   manifest: include('url-type') # URL - Absolute path | OKH manifest location

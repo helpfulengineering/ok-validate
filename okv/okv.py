@@ -2,8 +2,8 @@ import argparse
 # Import Yamale and make a schema object:
 import yamale
 import datetime
-from yamale.validators import DefaultValidators
-from .validators import License
+from .validators import DefaultValidators, RootValidation
+import yaml
 
 try:
     import importlib.resources as pkg_resources
@@ -27,12 +27,6 @@ def yamale_args_wrapper():
                         help='This indicates which Open Know specification to use.')
     return parser.parse_args()
 
-
-def use_validators():
-    validators = DefaultValidators.copy()  # This is a dictionary
-    validators[License.tag] = License
-    return validators
-
 def included_ok_schema(oktype):
     print("This doesn't work yet -- needs pkgutil or something comparable to work relative to the installed module")
     return './schemas/' + oktype + '.yaml'
@@ -40,16 +34,16 @@ def included_ok_schema(oktype):
 def main():
     args = yamale_args_wrapper()
 
-    # schema = yamale.make_schema('./schema.yaml')
-    validators = use_validators()
+    validators = DefaultValidators.copy()
     schema_to_use = included_ok_schema(args.ok) if args.schema is None else args.schema
     schema = yamale.make_schema(schema_to_use, validators=validators)
-    # schema = yamale.make_schema(schema_to_use)
 
     # Create a Data object
     path_to_use = args.path
     data = yamale.make_data(path_to_use)
-
+    root_validation = RootValidation(schema=schema, data=data, validators=validators, args=args)
+    root_validation.validate()
+    # root_level_validation(schema, data, validators, args)
     # Validate data against the schema. Throws a ValueError if data is invalid.
     yamale.validate(schema, data, None, not args.no_strict)
 
