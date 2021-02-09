@@ -7,12 +7,9 @@
 
 # Manifest metadata
 
-# work in progress -- not *fully* compatible with yamale validator until all fields have
-# been converted
 # ps, we're keeping regex errors for emails + url whether they're required or not bc of web dev things ~ sea
-# PPS [!] THIS IS THE DOC-HOME version.
+# this has both project link and doc home in it
 
-# : str()
 date-created: day()
 date-updated: day()
 manifest-author:

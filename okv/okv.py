@@ -13,7 +13,7 @@ except ImportError:
 
 def yamale_args_wrapper():
     parser = argparse.ArgumentParser(description='Validate yaml files.')
-    parser.add_argument('path', metavar='PATH', default='./', nargs='?',
+    parser.add_argument('-path', metavar='PATH', default='./', nargs='?',
                         help='folder to validate. Default is current directory.')
     parser.add_argument('-s', '--schema',
                         help='filename of schema. Default is schema.yaml.')
@@ -33,19 +33,30 @@ def included_ok_schema(oktype):
 
 def main():
     args = yamale_args_wrapper()
-
     validators = DefaultValidators.copy()
     schema_to_use = included_ok_schema(args.ok) if args.schema is None else args.schema
-    schema = yamale.make_schema(schema_to_use, validators=validators)
-
-    # Create a Data object
+    results = []
     path_to_use = args.path
-    data = yamale.make_data(path_to_use)
-    root_validation = RootValidation(schema=schema, data=data, validators=validators, args=args)
-    root_validation.validate()
-    # root_level_validation(schema, data, validators, args)
-    # Validate data against the schema. Throws a ValueError if data is invalid.
-    yamale.validate(schema, data, None, not args.no_strict)
+    
+    try:
+        data = yamale.make_data(path_to_use) # currently single files
+        schema = yamale.make_schema(schema_to_use, validators=validators)
+        # Create a Data object
+        
+        root_validation = RootValidation(schema=schema, data=data, validators=validators, args=args)
+        print("Here?")
+        root_validation.validate() # single goes through here
+        # root_level_validation(schema, data, validators, args)
+        # Validate data against the schema. Throws a ValueError if data is invalid.
+        results = yamale.validate(schema, data, None, not args.no_strict)
+        results = list(dict.fromkeys(results))
+        for r in results:
+            print(r)
+
+    except (SyntaxError, NameError, TypeError, ValueError) as e:
+        err_type = str(type(e)).split("\'")[1]+": "
+        print('Validation failed!\n%s' % err_type+str(e))
+        print("Consider revising .yaml format.")
 
 if __name__ == '__main__':
     main()

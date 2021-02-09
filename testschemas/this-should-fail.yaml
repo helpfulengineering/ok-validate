@@ -8,10 +8,10 @@
 #   - uncommented: using valid spdx params as values here
  
 license:
-  - hardware: cookie # cookie
+  - hardware: # cookie # cookie
     software: AAL 
     documentation: Abstyles
-  - hardware: Adobe 2006
+  - hardware: Adobe 9006
     software: Adobe-Glyph
     documentation: ADSL
   - hardware: AFL-1.1
