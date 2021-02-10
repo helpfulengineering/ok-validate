@@ -136,6 +136,7 @@ class RootValidation(object):
         """ Used for applying validation at the root level of the schema """
         # This is an experimental process
         schema = self.schema
+        res_arr=[]
         for item in schema.includes.items():
             # print(item)
             if item[0] == self.key:
@@ -150,8 +151,9 @@ class RootValidation(object):
                 raw_results = validate(root_schema, root_data, None, not self.args.no_strict)
                 results=list(raw_results)
                 for i in results:
-                    print(i)
-                break # return results and work from there??
+                    res_arr.append(str(i))
+                    # print(i)
+                return res_arr # return results and work from there??
 
 DefaultValidators = {}
 

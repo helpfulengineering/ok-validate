@@ -44,8 +44,11 @@ def main():
         # Create a Data object
         
         root_validation = RootValidation(schema=schema, data=data, validators=validators, args=args)
-        print("Here?")
-        root_validation.validate() # single goes through here
+        pre_results = root_validation.validate() # single goes through here
+        for p in pre_results:
+            if '\'None\' is Valid' not in p:
+                print(p)
+
         # root_level_validation(schema, data, validators, args)
         # Validate data against the schema. Throws a ValueError if data is invalid.
         results = yamale.validate(schema, data, None, not args.no_strict)
