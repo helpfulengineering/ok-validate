@@ -6,7 +6,15 @@
 #   - foo: bar
 #   - sarah: tested okh.yaml by running yamale with below
 #   - uncommented: using valid spdx params as values here
- 
+
+# title: this is required
+# description: this is a required field
+# documentation-home: https://foo.bar
+# foo: bar
+# license:
+#   foo: bar
+#   documentation: Apache
+
 license:
   - hardware: # cookie # cookie
     software: AAL 
