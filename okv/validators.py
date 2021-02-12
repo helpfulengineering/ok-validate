@@ -6,6 +6,7 @@ from yamale import make_schema, make_data, schema, validate
 class License(Validator):
     """ Custom License validator """
     tag = 'license'
+    required_key_present = False
 
     def _valid_licenses(self):
         return [
@@ -74,6 +75,9 @@ class License(Validator):
             'Zimbra-1.4','Zlib','zlib-acknowledgement','ZPL-1.1','ZPL-2.1','ZPL-2.0'      
         ]
 
+    def _valid_keys(self):
+            return ['hardware', 'documentation', 'software']
+
     def _is_valid(self, value):
         # If there are no keys declared for hardware, documentation, software
         # then this will evaluate to false
@@ -84,24 +88,31 @@ class License(Validator):
             return False
         # print("still validating")
         valid_licenses = self._valid_licenses()
-        for item in value:
-            for sub_item in item:
-                if item[sub_item] not in valid_licenses:
-                    if(item[sub_item] is None):
+        keys_to_check = self._valid_keys()
+        for key in keys_to_check:
+            if key in value:
+                self.required_key_present = True
+                provided_license = value[key]
+                if provided_license not in valid_licenses:
+                    if provided_license is None:
                         return False
-                    if(validity):
-                        self.license_error = "\'"+item[sub_item]+"\'"
+                    if validity:
+                        self.license_error = "\'" + provided_license + "\'"
                     else:
-                        self.license_error = self.license_error+", \'"+item[sub_item]+"\'"
+                        self.license_error = self.license_error+", \'" + provided_license + "\'"
                     validity = False
+        if not self.required_key_present:
+            return False
         return validity
-    
+
     def fail(self, value):
         """Override to define a custom fail message"""
         if value is None:
             return 'There must be at least one license specified for \'hardware\', \'documentation\', or \'software\''
+        elif not self.required_key_present:
+            return 'There must be at least one license specified for \'hardware\', \'documentation\', or \'software\''
         else:
-            return 'Invalid SPDX licenses found: %s' % (self.license_error)
+            return 'Invalid SPDX license(s) found: %s. Should be a valid identifier from https://spdx.org/licenses/' % (self.license_error)
 
 class Key(Validator):
     """ Custom Key validator """
