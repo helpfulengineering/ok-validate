@@ -1,9 +1,11 @@
 import argparse
 # Import Yamale and make a schema object:
 import yamale
+from yamale.yamale_error import YamaleError
 import datetime
 from .validators import DefaultValidators, RootValidation
 import yaml
+import os
 
 try:
     import importlib.resources as pkg_resources
@@ -36,29 +38,55 @@ def main():
     validators = DefaultValidators.copy()
     schema_to_use = included_ok_schema(args.ok) if args.schema is None else args.schema
     results = []
+    data_filename_arr=[]
     path_to_use = args.path
     
     try:
-        data = yamale.make_data(path_to_use) # currently single files
-        schema = yamale.make_schema(schema_to_use, validators=validators)
-        # Create a Data object
-        
-        root_validation = RootValidation(schema=schema, data=data, validators=validators, args=args)
-        pre_results = root_validation.validate() # single goes through here
-        for p in pre_results:
-            if '\'None\' is Valid' not in p:
-                print(p)
+        if(path_to_use.endswith('.yaml') or path_to_use.endswith('.yml')):
+            data_filename_arr.append(path_to_use)
+        else:
+            for root, dirs, files in os.walk(path_to_use):
+                for f in files:
+                    if (f.endswith('.yaml') or f.endswith('.yml')) and f != schema_to_use:
+                        data_filename_arr.append(args.path+"/"+f)
 
-        # root_level_validation(schema, data, validators, args)
-        # Validate data against the schema. Throws a ValueError if data is invalid.
-        results = yamale.validate(schema, data, None, not args.no_strict)
-        results = list(dict.fromkeys(results))
-        for r in results:
-            print(r)
+        file_count = 1
 
-    except (SyntaxError, NameError, TypeError, ValueError) as e:
+        for d in data_filename_arr:
+            print(d)
+            data = yamale.make_data(d) # currently single files
+            schema = yamale.make_schema(schema_to_use, validators=validators)
+            # Create a Data object
+            
+            root_validation = RootValidation(schema=schema, data=data, validators=validators, args=args)
+            pre_results = root_validation.validate() # single goes through here
+            for p in pre_results:
+                if '\'None\' is Valid' not in p:
+                    print(p)
+
+            # root_level_validation(schema, data, validators, args)
+            # Validate data against the schema. Throws a ValueError if data is invalid.
+            print("this should act like a string and not like an error")
+            mistake_made = False
+            try:
+                result = yamale.validate(schema, data, False, False)
+            except (SyntaxError, NameError, TypeError, ValueError, YamaleError) as f:
+                print(f)
+                print(result)
+                mistake_made = True
+            
+            if mistake_made == False:
+                results_list = list(dict.fromkeys(result))
+                for r in results_list:
+                    print(r)
+
+            if file_count < len(data_filename_arr):
+                print("\n • • • \n")
+                file_count += 1
+
+    except (SyntaxError, NameError, TypeError, ValueError, YamaleError) as e:
         err_type = str(type(e)).split("\'")[1]+": "
-        print('Validation failed!\n%s' % err_type+str(e))
+        print('Validation error!\n%s' % err_type+str(e))
         print("Consider revising .yaml format.")
 
 if __name__ == '__main__':
