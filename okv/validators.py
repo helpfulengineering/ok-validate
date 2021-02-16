@@ -111,6 +111,8 @@ class License(Validator):
             return 'There must be at least one license specified for \'hardware\', \'documentation\', or \'software\''
         elif not self.required_key_present:
             return 'There must be at least one license specified for \'hardware\', \'documentation\', or \'software\''
+        elif len(self.license_error)<1:
+            return 'At least one license field has been left blank. Please revise and provide valid SPDX license(s) or delete the field if you already have valid license(s).'
         else:
             return 'Invalid SPDX license(s) found: %s. Should be a valid identifier from https://spdx.org/licenses/' % (self.license_error)
 

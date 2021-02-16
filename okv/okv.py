@@ -66,7 +66,7 @@ def main():
 
             # root_level_validation(schema, data, validators, args)
             # Validate data against the schema. Throws a ValueError if data is invalid.
-            print("this should act like a string and not like an error")
+            print(" ")
             mistake_made = False
             try:
                 result = yamale.validate(schema, data, False, False)
