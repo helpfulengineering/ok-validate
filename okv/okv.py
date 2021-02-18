@@ -7,12 +7,6 @@ from .validators import DefaultValidators, RootValidation
 import yaml
 import os
 
-try:
-    import importlib.resources as pkg_resources
-except ImportError:
-    # Try backported to PY<37 `importlib_resources`.
-    import importlib_resources as pkg_resources
-
 def yamale_args_wrapper():
     parser = argparse.ArgumentParser(description='Validate yaml files.')
     parser.add_argument('-path', metavar='PATH', default='./', nargs='?',
@@ -30,8 +24,8 @@ def yamale_args_wrapper():
     return parser.parse_args()
 
 def included_ok_schema(oktype):
-    print("This doesn't work yet -- needs pkgutil or something comparable to work relative to the installed module")
-    return './schemas/' + oktype + '.yaml'
+    module_root = os.path.abspath(os.path.dirname(__file__))
+    return os.path.join(module_root, 'schemas', oktype + '.yaml')
 
 def main():
     args = yamale_args_wrapper()
@@ -53,7 +47,7 @@ def main():
         file_count = 1
 
         for d in data_filename_arr:
-            print(d)
+            # print(d)
             data = yamale.make_data(d) # currently single files
             schema = yamale.make_schema(schema_to_use, validators=validators)
             # Create a Data object
@@ -66,7 +60,6 @@ def main():
 
             # root_level_validation(schema, data, validators, args)
             # Validate data against the schema. Throws a ValueError if data is invalid.
-            print(" ")
             mistake_made = False
             try:
                 result = yamale.validate(schema, data, False, False)
