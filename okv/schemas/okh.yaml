@@ -9,7 +9,6 @@
 
 # ps, we're keeping regex errors for emails + url whether they're required or not bc of web dev things ~ sea
 # this has both project link and doc home in it
-
 date-created: day()
 date-updated: day()
 manifest-author:
@@ -93,14 +92,8 @@ software: list(include('list-item'), required=False)
 __root_validator__: any(key('documentation-home'), key('project-link'))
 manifest-is-translation: 
   title: str(required=False) # text | Title of the original
-  manifest: include('url-type') # URL - Absolute path | OKH manifest location
-  web: include('url-type') # URL - Absolute path | web presence location
-  lang: str(required=False) # language of original [language]-[region]
-
-documentation-is-translation:  
-  title: str(required=False) # text | Title of the original
-  manifest: include('url-type') # URL - Absolute path | OKH manifest location
-  web: include('url-type') # URL - Absolute path | web presence location
+  manifest: regex('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', name='valid url', required=False) # URL - Absolute path | OKH manifest location
+  web: regex('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', name='valid url', required=False) # URL - Absolute path | web presence location
   lang: str(required=False) # language of original [language]-[region]
 
 relative-of:
