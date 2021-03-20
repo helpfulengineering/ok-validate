@@ -46,7 +46,6 @@ def main():
                         data_filename_arr.append(args.path+"/"+f)
 
         file_count = 1
-        print(data_filename_arr)
 
         for d in data_filename_arr:
             # print(d)
