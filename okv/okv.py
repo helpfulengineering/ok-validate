@@ -36,6 +36,7 @@ def main():
     path_to_use = args.path
     
     try:
+        schema = yamale.make_schema(schema_to_use, validators=validators)
         if(path_to_use.endswith('.yaml') or path_to_use.endswith('.yml')):
             data_filename_arr.append(path_to_use)
         else:
@@ -49,7 +50,6 @@ def main():
         for d in data_filename_arr:
             # print(d)
             data = yamale.make_data(d) # currently single files
-            schema = yamale.make_schema(schema_to_use, validators=validators)
             # Create a Data object
             
             root_validation = RootValidation(schema=schema, data=data, validators=validators, args=args)
