@@ -34,6 +34,7 @@ def main():
     results = []
     data_filename_arr=[]
     path_to_use = args.path
+    strict= not args.no_strict
     
     try:
         schema = yamale.make_schema(schema_to_use, validators=validators)
@@ -65,7 +66,7 @@ def main():
             # Validate data against the schema. Throws a ValueError if data is invalid.
             mistake_made = False
             try:
-                result = yamale.validate(schema, data, False, False)
+                result = yamale.validate(schema, data, strict, False)
             except (SyntaxError, NameError, TypeError, ValueError, YamaleError) as f:
                 print(f)
                 print(result)
@@ -83,7 +84,8 @@ def main():
     except (SyntaxError, NameError, TypeError, ValueError, YamaleError) as e:
         err_type = str(type(e)).split("\'")[1]+": "
         print('Validation error!\n%s' % err_type+str(e))
-        print("Consider revising .yaml format.")
+        # TODO: should declare custom error types such as validation etc
+        raise
 
 if __name__ == '__main__':
     main()
