@@ -6,6 +6,10 @@ inputs:
     description: 'How many cores to use'
     required: false
     default: '4'
+  ok:
+    description: 'Which preset Open Knowledge Framework schema to use for validation. Should be one of ("okh")'
+    required: false
+    default: 'okh'
   parser:
     description: 'YAML library to load file'
     required: false
@@ -15,9 +19,9 @@ inputs:
     required: true
     default: './'
   schema:
-    description: 'Which Open Knowledge Framework schema to use for validation'
+    description: 'Full path to a provided Open Knowledge Framework schema to use for validation'
     required: false
-    default: 'okh'
+    default: ''
   strict:
     description: 'Should the schema validator be run in strict mode?'
     required: false
