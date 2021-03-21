@@ -13,7 +13,7 @@ inputs:
   path:
     description: 'The path to your mainfest or manifests relative to your workspace'
     required: true
-    default: '.'
+    default: './'
   schema:
     description: 'Which Open Knowledge Framework schema to use for validation'
     required: false

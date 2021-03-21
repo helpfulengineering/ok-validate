@@ -17,7 +17,7 @@ This action uses an Open Knowledge Framework schema to validate your manifest su
 
 #### `path`
 
-*Required* The path to your manifest or manifests relative to your workspace. Default `"."`.
+*Required* The path to your manifest or manifests relative to your workspace. Default `"./"`.
 
 #### `schema`
 
