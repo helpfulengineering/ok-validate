@@ -11,6 +11,10 @@ This action uses an Open Knowledge Framework schema to validate your manifest su
 
 *Optional* How many cores to use. Default `"4"`.
 
+#### `ok`
+
+*Optional* Which Open Knowledge Framework schema to use for validation. Default [`"okh"`](./okv/schemas/okh.yaml).
+
 #### `parser`
 
 *Optional*  YAML library to load file. Default `"pyyaml"` (can be one of `"pyyaml"` or `"ruamel"`).
@@ -21,7 +25,7 @@ This action uses an Open Knowledge Framework schema to validate your manifest su
 
 #### `schema`
 
-*Optional* Which Open Knowledge Framework schema to use for validation. Default [`"okh"`](./okv/schemas/okh.yaml).
+*Optional* The full path to an Open Knowledge Framework schema or custom schema to use for validation. Default `""`.
 
 #### `strict`
 

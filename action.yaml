@@ -19,7 +19,7 @@ inputs:
     required: true
     default: './'
   schema:
-    description: 'Full path to a provided Open Knowledge Framework schema to use for validation'
+    description: 'The full path to an Open Knowledge Framework schema or custom schema to use for validation'
     required: false
     default: ''
   strict:

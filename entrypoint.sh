@@ -7,7 +7,7 @@ else
     strict_mode='--no-strict'
     if [ "${INPUT_STRICT}" = "true" ]; then strict_mode=''; fi
     INPUT_CPU_NUM="$(env | sed -n 's/^INPUT_CPU-NUM=\(.*\)/\1/p')"
-    schema_flag="--ok=${INPUT_OKF}"
+    schema_flag="--ok=${INPUT_OK}"
     if [ ! -z "${INPUT_SCHEMA}" ]; then
         schema_flag="--schema=${INPUT_SCHEMA}"
     fi
