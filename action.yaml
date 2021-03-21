@@ -1,0 +1,30 @@
+# action.yml
+name: 'ok-validate'
+description: 'Use an Open Knowledge Framework schema to validate your manifest'
+inputs:
+  cpu-num:
+    description: 'How many cores to use'
+    required: false
+    default: '4'
+  parser:
+    description: 'YAML library to load file'
+    required: false
+    default: 'pyyaml'
+  path:
+    description: 'The path to your mainfest or manifests relative to your workspace'
+    required: true
+    default: '.'
+  schema:
+    description: 'Which Open Knowledge Framework schema to use for validation'
+    required: false
+    default: 'okh'
+  strict:
+    description: 'Should the schema validator be run in strict mode?'
+    required: false
+    default: 'false'
+outputs:
+  results:
+    description: 'The results of the validator'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

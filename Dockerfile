@@ -10,6 +10,7 @@ RUN groupadd -g ${gid} ${group} && useradd -u ${uid} -g ${group} -s /bin/sh ${us
     chown -R ${uid}:${gid} /okv
 WORKDIR /okv
 
+COPY --chown=${uid}:${gid} entrypoint.sh .
 # Should convert image to a multi-stage build and optimize
 # for size later but this is for the POC
 COPY --chown=${uid}:${gid} . .
@@ -18,4 +19,4 @@ RUN python setup.py install
 
 USER ${user}
 
-ENTRYPOINT [ "okv" ]
+ENTRYPOINT [ "/okv/entrypoint.sh" ]
