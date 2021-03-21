@@ -37,13 +37,16 @@ def main():
     
     try:
         schema = yamale.make_schema(schema_to_use, validators=validators)
-        if(path_to_use.endswith('.yaml') or path_to_use.endswith('.yml')):
-            data_filename_arr.append(path_to_use)
+        path_to_use = os.path.abspath(path_to_use)
+        if os.path.isfile(path_to_use):
+            if(path_to_use.endswith('.yaml') or path_to_use.endswith('.yml')):
+                data_filename_arr.append(path_to_use)
         else:
             for root, dirs, files in os.walk(path_to_use):
                 for f in files:
                     if (f.endswith('.yaml') or f.endswith('.yml')) and f != schema_to_use:
-                        data_filename_arr.append(args.path+"/"+f)
+                        d = os.path.join(root, f)
+                        data_filename_arr.append(d)
 
         file_count = 1
 
