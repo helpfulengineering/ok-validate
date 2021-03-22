@@ -12,5 +12,7 @@ else
         schema_flag="--schema=${INPUT_SCHEMA}"
     fi
     output=$(okv ${schema_flag} --cpu-num=${INPUT_CPU_NUM} --parser=${INPUT_PARSER} ${strict_mode} -path=${INPUT_PATH})
+    result=$?
     echo "::set-output name=results::$(echo $output)"
+    if [ "${result}" != "0" ]; then exit 1; fi
 fi
