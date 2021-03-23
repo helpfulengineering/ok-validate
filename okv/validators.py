@@ -8,8 +8,9 @@ class License(Validator):
     tag = 'license'
     required_key_present = False
 
-    # TODO: convert this to a map/dict and add a script generate that from the SPDX website
-    # for faster comparisons and richer metadata
+    # TODO: convert this to a map/dict and add a script generate 
+    # that from the SPDX website for faster comparisons and 
+    # richer metadata
     def _valid_licenses(self):
         return [
             'Apache-2.0','Abstyles','Adobe-2006','Adobe-Glyph','CERN-OHL-1.2','ADSL','AFL-1.1','AFL-1.2',
