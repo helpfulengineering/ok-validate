@@ -6,6 +6,8 @@ import datetime
 from .validators import DefaultValidators, RootValidation
 import yaml
 import os
+import sys
+
 
 def yamale_args_wrapper():
     parser = argparse.ArgumentParser(description='Validate yaml files.')
@@ -50,9 +52,11 @@ def yamale_args_wrapper():
     )
     return parser.parse_args()
 
+
 def included_ok_schema(oktype):
     module_root = os.path.abspath(os.path.dirname(__file__))
     return os.path.join(module_root, 'schemas', oktype.lower() + '.yaml')
+
 
 def composite_error_message(result, root_validation_error=None):
     results = []
@@ -65,13 +69,15 @@ def composite_error_message(result, root_validation_error=None):
                     results.append(error_string)
     return '\n'.join(results)
 
-def handle_error_exit(error_messages):
+
+def _handle_error_exit(error_messages):
     raise_python_exception = False
     error_string = '\n----\n'.join(set(error_messages))
     if raise_python_exception:
         raise ValueError(error_string)
     print(error_string)
-    exit(1)
+    sys.exit(1)
+
 
 def main():
     args = yamale_args_wrapper()
@@ -122,7 +128,7 @@ def main():
             file_count += 1
 
     if string_error_messages:
-        handle_error_exit(string_error_messages)
+        _handle_error_exit(string_error_messages)
 
 if __name__ == '__main__':
     main()
