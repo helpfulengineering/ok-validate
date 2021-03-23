@@ -8,8 +8,8 @@ class License(Validator):
     tag = 'license'
     required_key_present = False
 
-    # TODO: convert this to a map/dict and add a script generate 
-    # that from the SPDX website for faster comparisons and 
+    # TODO: convert this to a map/dict and add a script generate
+    # that from the SPDX website for faster comparisons and
     # richer metadata
     def _valid_licenses(self):
         return [

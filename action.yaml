@@ -1,6 +1,9 @@
 # action.yml
 name: 'ok-validate'
 description: 'Use an Open Knowledge Framework schema to validate your manifest'
+branding:
+  icon: check-circle
+  color: green
 inputs:
   cpu-num:
     description: 'How many cores to use'

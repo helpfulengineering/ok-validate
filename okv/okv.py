@@ -14,34 +14,34 @@ def yamale_args_wrapper():
         metavar='PATH',
         default='./',
         nargs='?',
-        help='folder to validate. Default is current directory.'
+        help='folder to validate. Default is current directory.',
     )
     parser.add_argument(
         '-s',
         '--schema',
-        help='filename of schema. Default is schema.yaml.'
+        help='filename of schema. Default is schema.yaml.',
     )
     parser.add_argument(
         '-n', '--cpu-num',
         default=4,
         type=int,
-        help='number of CPUs to use. Default is 4.'
+        help='number of CPUs to use. Default is 4.',
     )
     parser.add_argument(
         '-p',
         '--parser',
         default='pyyaml',
-        help='YAML library to load files. Choices are "ruamel" or "pyyaml" (default).'
+        help='YAML library to load files. Choices are "ruamel" or "pyyaml" (default).',
     )
     parser.add_argument(
         '--no-strict',
         action='store_true',
-        help='Disable strict mode, unexpected elements in the data will be accepted.'
+        help='Disable strict mode, unexpected elements in the data will be accepted.',
     )
     parser.add_argument(
         '--no-error',
         action='store_true',
-        help='Ignore error when violation of schema is identified.'
+        help='Ignore error when violation of schema is identified.',
     )
     parser.add_argument(
         '--ok',
@@ -64,6 +64,14 @@ def composite_error_message(result, root_validation_error=None):
                     error_string = '\t{0}'.format(str(error))
                     results.append(error_string)
     return '\n'.join(results)
+
+def handle_error_exit(error_messages):
+    raise_python_exception = False
+    error_string = '\n----\n'.join(set(error_messages))
+    if raise_python_exception:
+        raise ValueError(error_string)
+    print(error_string)
+    exit(1)
 
 def main():
     args = yamale_args_wrapper()
@@ -103,7 +111,7 @@ def main():
         # root_level_validation(schema, data, validators, args)
         # Validate data against the schema. Throws a ValueError if data is invalid.
         result = None
-        should_raise_error = False if len(data_filename_arr) > 0 else raise_error
+        should_raise_error = False if data_filename_arr else raise_error
         result = yamale.validate(schema, data, strict, should_raise_error)
         error_message = composite_error_message(result, root_validation_error)
         if error_message:
@@ -114,7 +122,7 @@ def main():
             file_count += 1
 
     if string_error_messages:
-        raise ValueError('\n----\n'.join(set(string_error_messages)))
+        handle_error_exit(string_error_messages)
 
 if __name__ == '__main__':
     main()
