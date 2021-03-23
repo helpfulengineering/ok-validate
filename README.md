@@ -41,3 +41,11 @@ uses: helpfulengineering/ok-validate@v0.0.1
 with:
   path: './some/path/to/file.yaml'
 ```
+
+## Automatic releasing
+
+<https://github.com/anothrNick/github-tag-action#bumping>
+
+> Manual Bumping: Any commit message that includes #major, #minor, #patch, or #none will trigger the
+> respective version bump. If two or more are present, the highest-ranking one will take precedence.
+> If #none is contained in the commit message, it will skip bumping regardless DEFAUT_BUMP.
