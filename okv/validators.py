@@ -161,7 +161,8 @@ class RootValidation(object):
                 root_schema_string = '%s: %s' % (self.key, item[1].dict)
                 # print(root_schema_string)
                 root_schema = make_schema(path=None, validators=self.validators, content=root_schema_string)
-                raw_results = validate(root_schema, root_data, None, not self.args.no_strict)
+                # raw_results = validate(root_schema, root_data, None, not self.args.no_strict)
+                raw_results = validate(root_schema, root_data, True, not self.args.no_strict)
                 results=list(raw_results)
                 for i in results:
                     res_arr.append(str(i))
