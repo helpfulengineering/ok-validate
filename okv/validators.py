@@ -8,6 +8,8 @@ class License(Validator):
     tag = 'license'
     required_key_present = False
 
+    # TODO: convert this to a map/dict and add a script generate that from the SPDX website
+    # for faster comparisons and richer metadata
     def _valid_licenses(self):
         return [
             'Apache-2.0','Abstyles','Adobe-2006','Adobe-Glyph','CERN-OHL-1.2','ADSL','AFL-1.1','AFL-1.2',
@@ -83,10 +85,8 @@ class License(Validator):
         # then this will evaluate to false
         self.license_error = ''
         validity = True
-        # print(value)
         if not bool(value):
             return False
-        # print("still validating")
         valid_licenses = self._valid_licenses()
         keys_to_check = self._valid_keys()
         for key in keys_to_check:
@@ -143,7 +143,6 @@ class RootValidation(object):
 
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
-        # print(self.schema)
 
     def validate(self):
         """ Used for applying validation at the root level of the schema """
@@ -151,23 +150,18 @@ class RootValidation(object):
         schema = self.schema
         res_arr=[]
         for item in schema.includes.items():
-            # print(item)
             if item[0] == self.key:
                 root_level = self.data[0][0]
                 root_level_dict = {"%s" % (self.key): root_level}
-                # print(root_level_dict)
                 yaml_dump = str(dump(root_level_dict))
                 root_data = make_data(content=str(yaml_dump))
                 root_schema_string = '%s: %s' % (self.key, item[1].dict)
-                # print(root_schema_string)
                 root_schema = make_schema(path=None, validators=self.validators, content=root_schema_string)
-                # raw_results = validate(root_schema, root_data, None, not self.args.no_strict)
-                raw_results = validate(root_schema, root_data, True, not self.args.no_strict)
+                raw_results = validate(root_schema, root_data, strict=(not self.args.no_strict), _raise_error=True)
                 results=list(raw_results)
                 for i in results:
                     res_arr.append(str(i))
-                    # print(i)
-                return res_arr # return results and work from there??
+                return res_arr  # return results and work from there??
 
 DefaultValidators = {}
 
