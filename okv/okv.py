@@ -1,12 +1,14 @@
 import argparse
-# Import Yamale and make a schema object:
-import yamale
-from yamale.yamale_error import YamaleError
 import datetime
-from .validators import DefaultValidators, RootValidation
-import yaml
 import os
 import sys
+
+import yamale
+import yaml
+from yamale.yamale_error import YamaleError
+
+from .validators import DefaultValidators, RootValidation
+
 
 
 def yamale_args_wrapper():
