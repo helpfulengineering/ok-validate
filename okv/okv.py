@@ -63,13 +63,17 @@ def included_ok_schema(oktype):
 def composite_error_message(result, root_validation_error=None):
     results = []
     for given_result in result:
+        if given_result.isValid():
+            continue
         results.append(str(given_result))
         if root_validation_error:
             for error_result in root_validation_error.results:
                 for error in error_result.errors:
                     error_string = '\t{0}'.format(str(error))
                     results.append(error_string)
-    return '\n'.join(results)
+    if results:
+        return '\n'.join(results)
+    return None
 
 
 def _handle_error_exit(error_messages):
