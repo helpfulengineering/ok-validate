@@ -29,7 +29,10 @@ else
             # enforced prefix for each of the file restrictions. In the case
             # of the pull request, this means that added and modified files
             # must exist within a particular directory or match a file
-            if [[ ! -z "${INPUT_PATH}" ]] && [[ "${file}" != ${INPUT_PATH}* ]]; then
+            if [[ ! -z "${INPUT_PATH}" ]] && [[ "${file}" != ${INPUT_PATH}*.y*ml ]]; then
+                continue
+            fi
+            if [ ! -f "${file}" ]; then
                 continue
             fi
             tmp_output=$(okv ${schema_flag} --cpu-num=${INPUT_CPU_NUM} --parser=${INPUT_PARSER} ${strict_mode} -path=${file})
