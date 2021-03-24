@@ -7,8 +7,6 @@
 
 # Manifest metadata
 
-# ps, we're keeping regex errors for emails + url whether they're required or not bc of web dev things ~ sea
-# this has both project link and doc home in it
 date-created: day()
 date-updated: day()
 manifest-author:
@@ -40,7 +38,7 @@ health-safety-notice: str(required=False)    # paragraph
 
 contact: include('contact-kit', required=False) # currently listed as required,
 
-contributors: list(include('nonessential-contact'),required=False)                             # recommended
+contributors: list(include('nonessential-contact'), required=False)                             # recommended
 
 image: regex('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+((.gif)|(.png)|(.jpg)|(.jpeg))$', name="valid image url", required=False) 
 version: str(required=False)                 # text
@@ -105,7 +103,7 @@ standards-used:
   standard-title: str() # Required where used | Title of the standard used in developing the design or documentation
   publisher: str(required=False) # Publisher of the standard
   reference: str(required=False) # Reference indentifier of the standard (e.g. ISO 9001)
-  certification: list(include('certification', required=False))
+  certification: list(include('certification'), required=False)
 
 list-item:
   path: include('url-type', required=False)
@@ -122,8 +120,7 @@ contact-kit:
   email: regex('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$', required=False)
   social: list(include('social-list-item'), required=False)
 
-license-item: any(include('license-item-a'), include('license-item-b'),include('license-item-c'))
-# if there's a more optimized way to do that pls lmk ~ SEA
+license-item: any(include('license-item-a'), include('license-item-b'), include('license-item-c'))
 ---
 # {license-list} is not a map comes from here
 license-item-a:
