@@ -9,6 +9,10 @@ inputs:
     description: 'How many cores to use'
     required: false
     default: '4'
+  file-restrictions:
+    description: 'For a given path or directory, only process these (space separated) files. Useful for pull requests.'
+    required: false
+    default: ''
   ok:
     description: 'Which preset Open Knowledge Framework schema to use for validation. Should be one of ("okh")'
     required: false
@@ -18,7 +22,7 @@ inputs:
     required: false
     default: 'pyyaml'
   path:
-    description: 'The path to your mainfest or manifests relative to your workspace'
+    description: 'The path to your manifest(s) relative to your workspace'
     required: true
     default: './'
   schema:

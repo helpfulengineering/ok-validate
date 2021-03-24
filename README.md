@@ -11,6 +11,10 @@ This action uses an Open Knowledge Framework schema to validate your manifest su
 
 *Optional* How many cores to use. Default `"4"`.
 
+#### `file-restrictions`
+
+*Optional* For a given path or directory, only process these (space separated) files. Useful for pull requests. Default `""`.
+
 #### `ok`
 
 *Optional* Which Open Knowledge Framework schema to use for validation. Default [`"okh"`](./okv/schemas/okh.yaml).
@@ -33,11 +37,11 @@ This action uses an Open Knowledge Framework schema to validate your manifest su
 ### Example usage
 
 ```yaml
-uses: helpfulengineering/ok-validate@v0.0.1
+uses: helpfulengineering/ok-validate@v0.0.4
 ```
 
 ```yaml
-uses: helpfulengineering/ok-validate@v0.0.1
+uses: helpfulengineering/ok-validate@v0.0.4
 with:
   path: './some/path/to/file.yaml'
 ```
