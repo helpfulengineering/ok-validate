@@ -42,6 +42,37 @@ with:
   path: './some/path/to/file.yaml'
 ```
 
+## CLI usage
+
+```
+usage: okv [-h] [-path [PATH]] [-s SCHEMA] [-n CPU_NUM] [-p PARSER] [--no-strict] [--no-error] [--ok OK]
+
+Validate yaml files.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -path [PATH]          folder to validate. Default is current directory.
+  -s SCHEMA, --schema SCHEMA
+                        filename of schema. Default is schema.yaml.
+  -n CPU_NUM, --cpu-num CPU_NUM
+                        number of CPUs to use. Default is 4.
+  -p PARSER, --parser PARSER
+                        YAML library to load files. Choices are "ruamel" or "pyyaml" (default).
+  --no-strict           Disable strict mode, unexpected elements in the data will be accepted.
+  --no-error            Ignore error when violation of schema is identified.
+  --ok OK               This indicates which Open Know specification to use.
+```
+
+## Docker
+
+### Usage
+
+The Docker image accepts all of the [CLI arguments as detailed above](#cli-usage).
+
+```
+docker run --rm -v ${PWD}/:/tmp/ ok-validate --ok=okh -path=/tmp/path/to/okh-file.yaml
+```
+
 ## Automatic releasing
 
 <https://github.com/anothrNick/github-tag-action#bumping>
